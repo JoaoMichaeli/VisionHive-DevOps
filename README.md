@@ -2,6 +2,11 @@
 
 Este projeto demonstra a criação completa de uma aplicação Java Spring Boot hospedada no **Azure App Service**, conectada a um **PostgreSQL**. Inclui a criação do App Service, banco de dados, configuração de connection string e variáveis de ambiente, tudo via Azure CLI.
 
+# Video demonstração Passo a Passo:
+```link
+https://youtu.be/O0pKMFNcDm8
+```
+
 ---
 
 ## 1. Criar Resource Group
