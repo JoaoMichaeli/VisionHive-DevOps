@@ -51,6 +51,16 @@ az postgres flexible-server firewall-rule create \
 ```
 
 ## 6. Configurar Connection String no App Service
+### Pegue a string do Flexible Server:
+```bash
+az postgres flexible-server show-connection-string \
+  --server-name visionhive-db \
+  --database-name postgres \
+  --admin-user visionadmin \
+  --admin-password 'Vision123!'
+
+```
+### Configure no App Service:
 ```bash
 az webapp config connection-string set \
   --resource-group rg-visionhive \
