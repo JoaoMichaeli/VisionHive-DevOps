@@ -1,146 +1,79 @@
-# 🚀 Vision Hive
+# VisionHive-DevOps
 
-**Vision Hive** é uma API RESTful desenvolvida para a empresa Mottu com o objetivo de facilitar o gerenciamento e localização de motocicletas nos pátios operacionais. A aplicação permite o cadastro de **Filiais (Branch)**, **Pátios (Patio)** e **Motocicletas (Motorcycle)**, associando motos aos seus respectivos pátios e filiais, com busca por placa, chassi ou número do motor.
+Este projeto demonstra a criação completa de uma aplicação Java Spring Boot hospedada no **Azure App Service**, conectada a um **PostgreSQL Single Server**. Inclui a criação do App Service, banco de dados, configuração de connection string e variáveis de ambiente, tudo via Azure CLI.
 
-Além disso, o sistema possui **controle de acesso baseado em roles**:
-- **ADMIN:** acesso completo a todas as rotas e funcionalidades, incluindo criação de operadores e visualização de todos os links rápidos no footer.
-- **OPERADOR:** acesso restrito às rotas de motocicletas (`/motorcycle` e `/motorcycle/{id}`), e ao perfil do usuário. O footer não exibe os links rápidos.
+---
 
-## 📌 Descrição do Projeto
-
-Este projeto tem como objetivo automatizar e otimizar a gestão das motos nos pátios da Mottu utilizando microcontroladores ESP32 conectados via Wi-Fi, sensores físicos e um sistema web responsivo. A proposta visa garantir uma operação mais ágil, segura e escalável, eliminando o controle manual e aumentando a precisão na localização e no monitoramento dos veículos.
-
-## 🎬 DEMONSTRAÇÃO YOUTUBE
-```text
-link
+## 1. Criar Resource Group
+```bash
+az group create --name rg-visionhive --location brazilsouth
 ```
 
-## 🎯 Objetivos
+## 2. Criar App Service Plan
+- Plano gratuito para Linux, preparado para Java 17.
+```bash
+az appservice plan create --name plan-visionhive --resource-group rg-visionhive --sku F1 --is-linux
+```
 
-- Identificar rapidamente uma moto específica no pátio utilizando um alerta visual e/ou sonoro.
-- Fornecer uma visualização **em tempo real** da chamada e do status de resposta da moto.
-- Garantir escalabilidade para aplicação em mais de 100 filiais com diferentes layouts.
-- Oferecer uma interface intuitiva, acessível por desktop e mobile.
-- Integrar sensores IoT nas motos para coleta automatizada de dados e status.
+## 3. Criar Web App
+- Isso cria o App Service já preparado para receber o .jar ou deploy via Git.
+- --deployment-local-git habilita deploy via git push.
+```bash
+az webapp create --resource-group rg-visionhive --plan plan-visionhive --name visionhive-app --runtime "JAVA:17-java17" --deployment-local-git
+```
 
-## 🚨 Dor da Mottu
+## 4. Criar PostgreSQL Single Server
+- --public-network-access Enabled → acesso público (bom para testes)
+```bash
+az postgres server create \
+  --name visionhive-db \
+  --resource-group rg-visionhive \
+  --location brazilsouth \
+  --admin-user visionadmin \
+  --admin-password 'Vision123!' \
+  --sku-name B_Gen5_1 \
+  --storage-size 32 \
+  --version 15 \
+  --public-network-access Enabled
+```
 
-Com centenas de motos distribuídas em mais de 100 pátios no Brasil e no México, a Mottu enfrenta dificuldades operacionais para localizar rapidamente veículos específicos, gerando atrasos logísticos e desperdício de tempo da equipe.
+## 5. Configurar firewall para permitir acesso do App Service
+- Aqui estou liberando para todos (facilita a Sprint).
+- Se quiser, pode restringir para o IP do App Service.
+```bash
+az postgres server firewall-rule create \
+  --resource-group rg-visionhive \
+  --server visionhive-db \
+  --name AllowAppService \
+  --start-ip-address 0.0.0.0 \
+  --end-ip-address 255.255.255.255
+```
 
-## 💡 Nossa Solução
+## 6. Configurar Connection String no App Service
+```bash
+az webapp config connection-string set \
+  --resource-group rg-visionhive \
+  --name visionhive-app \
+  --connection-string-type PostgreSQL \
+  --settings 'DefaultConnection=jdbc:postgresql://visionhive-db.postgres.database.azure.com:5432/postgres?user=visionadmin&password=Vision123\!&sslmode=require'
+```
 
-O **VisionHive** propõe o uso de dispositivos **ESP32** com sensores físicos e conexão Wi-Fi, fixados em cada moto. Através de uma **plataforma web integrada**, é possível acionar **alertas visuais ou sonoros remotamente**, permitindo a identificação **precisa e ágil** de qualquer moto no pátio — sem depender de busca manual.
+## 7. Configurar variáveis de ambiente (App Settings) para Spring Boot
+```bash
+az webapp config appsettings set \
+  --resource-group rg-visionhive \
+  --name visionhive-app \
+  --settings SPRING_DATASOURCE_URL='jdbc:postgresql://visionhive-db.postgres.database.azure.com:5432/postgres' \
+             SPRING_DATASOURCE_USERNAME='visionadmin' \
+             SPRING_DATASOURCE_PASSWORD='Vision123!' \
+             SPRING_JPA_HIBERNATE_DDL_AUTO='update'
+```
 
-## 🪪 Login para testes como admin
-
-- Login:
-  ```adminCM```
-- Senha:
-  ```admin123```
-
-## 🪪 Login para testes como operador
-
-- Login:
-  ```operadorCM```
-- Senha:
-  ```operador123```
-
----
-
-## 📸 Imagens do Projeto
-
-### 🏢 Bases  
-- **Cadastro de Bases**  
-  ![Cadastro de Bases](imagens/cadastro_base.png)
-
-- **Bases Cadastradas**  
-  ![Bases Cadastradas](imagens/bases.png)
-
----
-
-### 🛵 Motocicletas  
-- **Cadastro de Motos**  
-  ![Cadastro de Motos](imagens/cadastro_moto.png)
-
-- **Motos Cadastradas**  
-  ![Motos Cadastradas](imagens/motos.png)
-
----
-
-### 🅿️ Pátios  
-- **Cadastro de Pátios**  
-  ![Cadastro de Pátios](imagens/cadastro_patio.png)
-
-- **Pátios Cadastrados**  
-  ![Pátios Cadastrados](imagens/patios.png)
-
----
-
-## 🛠 Tecnologias Utilizadas
-
-- Java 17+
-- Spring Boot (Web, Data JPA, Validation, Security)
-- Banco de Dados H2 (para desenvolvimento)
-- Lombok
-- Swagger (OpenAPI) para documentação automática
-- Maven para gerenciamento de dependências
-- Thymeleaf para frontend
-- TailwindCSS para estilos
-
----
-
-## 🔐 Controle de Acesso
-
-### ADMIN
-- Pode acessar todas as rotas: `/branch`, `/patio`, `/motorcycle`.
-- Pode criar operadores.
-- Footer exibe todos os links rápidos.
-- Botão de "Voltar" em formulários redireciona para `/`.
-
-### OPERADOR
-- Acesso restrito a `/motorcycle` e `/motorcycle/{id}`.
-- Footer não exibe links rápidos.
-- Botão de "Voltar" em formulários redireciona para `/motorcycle`.
-
----
-
-## 🚀 Como Rodar o Projeto
-
-1. Clone o repositório:
-   ```bash
-   git clone https://github.com/seu-usuario/visionhive.git
-   ```
-
-2. Entre na pasta do projeto:
-   ```bash
-   cd VisionHive-Java
-   ```
-   
-3. Execute a aplicação:
-   ```bash
-   ./mvnw spring-boot:run
-   ```
-
-4. Acesse a aplicação via navegador web:
-   ```
-   http://localhost:8080/login
-   ```
-
-6. Acesse a documentação Swagger para testar as rotas:
-   ```
-   http://localhost:8080/swagger-ui/index.html
-   ```
-
----
-
-## 👥 Integrantes
-
-| Nome                   | RM       |
-|------------------------|----------|
-| João Victor Michaeli   | RM555678 |
-| Larissa Muniz          | RM557197 |
-| Henrique Garcia        | RM558062 |
-
----
-
-> Projeto acadêmico desenvolvido na FIAP para o Challenge 2025
+## 8. Deploy do .jar no App Service
+```bash
+az webapp deploy \
+  --resource-group rg-visionhive \
+  --name visionhive-app \
+  --type jar \
+  --src-path build/libs/VisionHive-0.0.1-SNAPSHOT.jar
+```
