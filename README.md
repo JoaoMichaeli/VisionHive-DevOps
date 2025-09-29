@@ -1,6 +1,6 @@
 # VisionHive-DevOps
 
-Este projeto demonstra a criação completa de uma aplicação Java Spring Boot hospedada no **Azure App Service**, conectada a um **PostgreSQL Single Server**. Inclui a criação do App Service, banco de dados, configuração de connection string e variáveis de ambiente, tudo via Azure CLI.
+Este projeto demonstra a criação completa de uma aplicação Java Spring Boot hospedada no **Azure App Service**, conectada a um **PostgreSQL**. Inclui a criação do App Service, banco de dados, configuração de connection string e variáveis de ambiente, tudo via Azure CLI.
 
 ---
 
