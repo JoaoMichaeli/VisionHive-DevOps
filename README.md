@@ -22,19 +22,20 @@ az appservice plan create --name plan-visionhive --resource-group rg-visionhive 
 az webapp create --resource-group rg-visionhive --plan plan-visionhive --name visionhive-app --runtime "JAVA:17-java17" --deployment-local-git
 ```
 
-## 4. Criar PostgreSQL Single Server
+## 4. Criar PostgreSQL Flexible Server
 - --public-network-access Enabled → acesso público (bom para testes)
 ```bash
-az postgres server create \
+az postgres flexible-server create \
   --name visionhive-db \
   --resource-group rg-visionhive \
   --location brazilsouth \
   --admin-user visionadmin \
   --admin-password 'Vision123!' \
-  --sku-name B_Gen5_1 \
+  --sku-name Standard_B1ms \
+  --tier Burstable \
   --storage-size 32 \
   --version 15 \
-  --public-network-access Enabled
+  --public-access all
 ```
 
 ## 5. Configurar firewall para permitir acesso do App Service
