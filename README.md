@@ -2,12 +2,70 @@
 
 Este projeto demonstra a criação completa de uma aplicação Java Spring Boot hospedada no **Azure App Service**, conectada a um **PostgreSQL**. Inclui a criação do App Service, banco de dados, configuração de connection string e variáveis de ambiente, tudo via Azure CLI.
 
+---
+
 # Video demonstração Passo a Passo:
-```link
-https://youtu.be/O0pKMFNcDm8
-```
+Assista ao passo a passo da configuração e deploy neste vídeo:
+
+[https://youtu.be/O0pKMFNcDm8](https://youtu.be/O0pKMFNcDm8)
 
 ---
+
+# Arquitetura do Sistema
+
+![Diagrama de Arquitetura](./imagens/arquitetura.png)
+
+## Componentes da Arquitetura
+
+A arquitetura para a aplicação **Vision Hive** no Azure é composta pelos seguintes serviços principais:
+
+*   **Azure Resource Group (rg-visionhive)**: Um contêiner lógico que agrupa todos os recursos relacionados à aplicação, facilitando o gerenciamento e a organização.
+*   **Azure App Service Plan (plan-visionhive)**: Define o conjunto de recursos de computação que seu Web App utiliza. Neste caso, um plano gratuito para Linux, otimizado para Java 17.
+*   **Azure App Service (visionhive-app)**: Onde a aplicação Java (Spring Boot) é hospedada e executada. Ele fornece a plataforma para o deploy do seu arquivo `.jar` ou via Git.
+*   **Azure PostgreSQL Flexible Server (visionhive-db)**: Um serviço de banco de dados relacional totalmente gerenciado, compatível com PostgreSQL, usado para armazenar os dados da aplicação.
+*   **Azure DNS**: Gerencia a resolução de nomes de domínio, garantindo que a URL da sua aplicação (`visionhive-app.azurewebsites.net`) seja acessível publicamente via Internet.
+*   **Azure Active Directory (AAD)**: Embora não configurado diretamente neste setup inicial, o AAD seria a solução para gerenciamento de identidades e acesso para usuários e serviços no Azure.
+*   **Azure Monitor, Log Analytics e Cost Budgets**: Ferramentas essenciais para monitoramento, análise de logs e gestão de custos da sua infraestrutura Azure em um ambiente de produção.
+
+## Fluxo de Funcionamento e Deploy
+
+1.  **Criação da Infraestrutura Básica**:
+    *   Um **Resource Group** é criado para organizar todos os recursos da aplicação.
+    *   Um **App Service Plan** é provisionado para fornecer os recursos de computação para a aplicação web.
+    *   O **Web App (App Service)** é criado dentro do App Service Plan, configurado para Java 17 e habilitado para deploy via Git.
+    *   Um **PostgreSQL Flexible Server** é provisionado como o banco de dados da aplicação, com acesso público habilitado para testes.
+
+2.  **Configuração da Conectividade e Segurança**:
+    *   Uma regra de **Firewall** é configurada no PostgreSQL Flexible Server para permitir que o App Service (ou qualquer IP no caso de acesso público) se conecte ao banco de dados.
+    *   A **Connection String** do PostgreSQL é obtida e configurada no App Service como uma string de conexão de banco de dados, permitindo que a aplicação se conecte ao banco de dados.
+    *   **Variáveis de Ambiente (App Settings)** específicas para o Spring Boot são configuradas no App Service, fornecendo os detalhes de conexão do banco de dados (URL, usuário, senha) e a estratégia DDL do Hibernate.
+
+3.  **Deploy e Acesso da Aplicação**:
+    *   O projeto Java (Spring Boot) é **buildado** localmente para gerar o arquivo `.jar executável`.
+    *   O arquivo `.jar` é **deployado** no Azure App Service, tornando a aplicação disponível.
+    *   A aplicação pode ser **acessada publicamente** através da sua URL (`visionhive-app.azurewebsites.net`), utilizando o Azure DNS para a resolução do nome.
+
+## Interações Chave
+
+*   A **Internet e o Azure DNS** direcionam as requisições dos usuários para o **App Service**.
+*   O **App Service** executa a aplicação Java, que se conecta ao **PostgreSQL Flexible Server** usando as configurações de Connection String e Variáveis de Ambiente.
+*   **Diagnósticos e Métricas** (como `Diagnostic Logs and Metric Data`) são enviados do App Service e do PostgreSQL para o **Azure Monitor** e **Log Analytics**, permitindo monitoramento e solução de problemas.
+*   Todos esses recursos estão contidos dentro do **Resource Group**, e seu uso e custos podem ser monitorados através do **Cost Budgets**.
+
+---
+
+## Pré-requisitos
+
+Para seguir este guia, você precisará ter:
+
+*   **Azure CLI** instalado e autenticado (`az login`).
+*   **Java Development Kit (JDK) 17** ou superior.
+*   **Gradle** (ou Maven, dependendo do seu projeto Spring Boot) para buildar a aplicação.
+*   **Git** instalado, caso utilize o deploy via `git push`.
+
+---
+
+## Comandos de Configuração e Deploy (Passo a Passo)
 
 ## 1. Criar Resource Group
 ```bash
@@ -117,12 +175,17 @@ az webapp deploy \
 ```text
 visionhive-app.azurewebsites.net
 ```
-### Contas criadas para testes:
-#### Conta de Admin(Total fluxo no sistema):
-- Usuário: adminCM
-- Senha: admin123
 
-#### Conta de Operador(Fluxo somente na organização das motos):
-- Usuário: operadorCm
-- Senha: operador123
+## Credenciais de Teste da Aplicação
+
+Utilize as seguintes contas para testar o fluxo da aplicação:
+
+#### Conta de Admin (Acesso total no sistema):
+*   **Usuário**: adminCM
+*   **Senha**: admin123
+
+#### Conta de Operador (Acesso somente na organização das motos):
+*   **Usuário**: operadorCm
+*   **Senha**: operador123
+
 
