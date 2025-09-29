@@ -188,4 +188,54 @@ Utilize as seguintes contas para testar o fluxo da aplicação:
 *   **Usuário**: operadorCm
 *   **Senha**: operador123
 
+## Imagens do Projeto e critérios de aceite
 
+### Bases  
+- **Cadastro de Bases:**
+- - O campo **nome** não pode estar em branco.  
+- O campo **bairro** não pode estar em branco.  
+- O campo **cnpj**:  
+  - Não pode estar em branco.  
+  - Deve ter **exatamente 14 dígitos**.  
+- A filial pode conter múltiplos **pátios** associados.
+  
+![Cadastro de Bases](imagens/cadastro_base.png)
+
+### Motocicletas  
+- **Cadastro de Motos:**
+- O campo **placa**:  
+  - Não pode estar em branco.  
+  - Deve ter **exatamente 7 caracteres**.  
+- O campo **chassi**:  
+  - Não pode estar em branco.  
+  - Deve ter **exatamente 17 caracteres**.  
+- O campo **numeração do motor**:  
+  - Não pode estar em branco.  
+  - Deve ter entre **9 e 17 caracteres**.  
+- O campo **modelo da moto**:  
+  - Não pode estar em branco.  
+  - Deve ser **MottuSport**, **MottuE** ou **MottuPop**.  
+- O campo **situação** não pode estar vazio.
+- Toda motocicleta deve estar associada a um **pátio**.
+  
+![Cadastro de Motos](imagens/cadastro_moto.png)
+ 
+### Pátios  
+- **Cadastro de Pátios:**
+- O campo **nome** não pode estar em branco.  
+- Todo pátio deve estar associado a uma **filial (branch)**.  
+- Um pátio pode conter múltiplas **motocicletas**.  
+
+![Cadastro de Pátios](imagens/cadastro_patio.png)
+
+---
+
+## Integrantes
+
+| Nome                   | RM       |
+|------------------------|----------|
+| João Victor Michaeli   | RM555678 |
+| Larissa Muniz          | RM557197 |
+| Henrique Garcia        | RM558062 |
+
+---
