@@ -42,10 +42,10 @@ az postgres flexible-server create \
 - Aqui estou liberando para todos (facilita a Sprint).
 - Se quiser, pode restringir para o IP do App Service.
 ```bash
-az postgres server firewall-rule create \
+az postgres flexible-server firewall-rule create \
   --resource-group rg-visionhive \
-  --server visionhive-db \
-  --name AllowAppService \
+  --name visionhive-db \
+  --rule-name AllowAppService \
   --start-ip-address 0.0.0.0 \
   --end-ip-address 255.255.255.255
 ```
