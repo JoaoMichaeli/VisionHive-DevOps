@@ -1,90 +1,146 @@
-# VisionHive-Java
+# 🚀 Vision Hive
 
-Este projeto representa a aplicação backend da VisionHive, empacotada com Maven, containerizada com Docker e implantada em uma VM no Azure.
+**Vision Hive** é uma API RESTful desenvolvida para a empresa Mottu com o objetivo de facilitar o gerenciamento e localização de motocicletas nos pátios operacionais. A aplicação permite o cadastro de **Filiais (Branch)**, **Pátios (Patio)** e **Motocicletas (Motorcycle)**, associando motos aos seus respectivos pátios e filiais, com busca por placa, chassi ou número do motor.
+
+Além disso, o sistema possui **controle de acesso baseado em roles**:
+- **ADMIN:** acesso completo a todas as rotas e funcionalidades, incluindo criação de operadores e visualização de todos os links rápidos no footer.
+- **OPERADOR:** acesso restrito às rotas de motocicletas (`/motorcycle` e `/motorcycle/{id}`), e ao perfil do usuário. O footer não exibe os links rápidos.
+
+## 📌 Descrição do Projeto
+
+Este projeto tem como objetivo automatizar e otimizar a gestão das motos nos pátios da Mottu utilizando microcontroladores ESP32 conectados via Wi-Fi, sensores físicos e um sistema web responsivo. A proposta visa garantir uma operação mais ágil, segura e escalável, eliminando o controle manual e aumentando a precisão na localização e no monitoramento dos veículos.
+
+## 🎬 DEMONSTRAÇÃO YOUTUBE
+```text
+link
+```
+
+## 🎯 Objetivos
+
+- Identificar rapidamente uma moto específica no pátio utilizando um alerta visual e/ou sonoro.
+- Fornecer uma visualização **em tempo real** da chamada e do status de resposta da moto.
+- Garantir escalabilidade para aplicação em mais de 100 filiais com diferentes layouts.
+- Oferecer uma interface intuitiva, acessível por desktop e mobile.
+- Integrar sensores IoT nas motos para coleta automatizada de dados e status.
+
+## 🚨 Dor da Mottu
+
+Com centenas de motos distribuídas em mais de 100 pátios no Brasil e no México, a Mottu enfrenta dificuldades operacionais para localizar rapidamente veículos específicos, gerando atrasos logísticos e desperdício de tempo da equipe.
+
+## 💡 Nossa Solução
+
+O **VisionHive** propõe o uso de dispositivos **ESP32** com sensores físicos e conexão Wi-Fi, fixados em cada moto. Através de uma **plataforma web integrada**, é possível acionar **alertas visuais ou sonoros remotamente**, permitindo a identificação **precisa e ágil** de qualquer moto no pátio — sem depender de busca manual.
+
+## 🪪 Login para testes como admin
+
+- Login:
+  ```adminCM```
+- Senha:
+  ```admin123```
+
+## 🪪 Login para testes como operador
+
+- Login:
+  ```operadorCM```
+- Senha:
+  ```operador123```
 
 ---
 
-## 🧪 Tecnologias utilizadas
+## 📸 Imagens do Projeto
 
-- Java 17
-- Maven
-- Docker
-- Azure Virtual Machine (Ubuntu 24.04 LTS)
-- GitHub
-- Swagger (para teste e documentação da API)
+### 🏢 Bases  
+- **Cadastro de Bases**  
+  ![Cadastro de Bases](imagens/cadastro_base.png)
 
----
-
-## 🔧 Etapas DevOps para implantação
-
-### 1. Clonar o repositório
-```bash
-git clone https://github.com/JoaoMichaeli/VisionHive-Java.git
-cd VisionHive-Java
-```
-
-### 2. Criar o Dockerfile (caso ainda não exista)
-Adicionar um arquivo `Dockerfile` na raiz com o seguinte conteúdo:
-
-```dockerfile
-FROM maven:3.9.6-eclipse-temurin-17-alpine AS build
-WORKDIR /app
-COPY . .
-RUN mvn clean package -DskipTests
-
-FROM eclipse-temurin:17-jdk-alpine
-WORKDIR /app
-COPY --from=build /app/target/*.jar app.jar
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
-```
-
-### 3. Criar a imagem Docker
-```bash
-docker build -t joaomichaeli/visionhive-java:v1 .
-```
-
-### 4. Fazer login no Docker Hub e publicar a imagem
-```bash
-docker login
-docker push joaomichaeli/visionhive-java:v1
-```
-
-### 5. Criar uma máquina virtual na Azure (Ubuntu 24.04)
-- Configurar acesso SSH
-- Abrir porta 8080 no grupo de segurança de rede
-
-### 6. Conectar à VM via SSH
-```bash
-az ssh vm --resource-group VisionHive --vm-name VisionHiveSp1 --subscription <ID-DA-SUBSCRIPTION>
-```
-
-### 7. Instalar Docker na VM (caso necessário)
-```bash
-sudo apt update
-sudo apt install docker.io -y
-sudo usermod -aG docker $USER
-newgrp docker
-```
-
-### 8. Puxar e rodar o container na VM
-```bash
-docker pull joaomichaeli/visionhive-java:v1
-docker run -d -p 8080:8080 joaomichaeli/visionhive-java:v1
-```
+- **Bases Cadastradas**  
+  ![Bases Cadastradas](imagens/bases.png)
 
 ---
 
-## 🌐 Acesso à aplicação
+### 🛵 Motocicletas  
+- **Cadastro de Motos**  
+  ![Cadastro de Motos](imagens/cadastro_moto.png)
 
-- Após subir o container, acesse via navegador:
-```
-http://<IP-PUBLICO-DA-VM>:8080/swagger-ui/index.html
-```
+- **Motos Cadastradas**  
+  ![Motos Cadastradas](imagens/motos.png)
 
 ---
 
-## 📌 Observações
+### 🅿️ Pátios  
+- **Cadastro de Pátios**  
+  ![Cadastro de Pátios](imagens/cadastro_patio.png)
 
-- O projeto ainda não possui interface web, apenas o Swagger disponível como ponto de teste e validação de endpoints.
-- Certifique-se de expor a porta 8080 no firewall e no NSG da Azure.
+- **Pátios Cadastrados**  
+  ![Pátios Cadastrados](imagens/patios.png)
+
+---
+
+## 🛠 Tecnologias Utilizadas
+
+- Java 17+
+- Spring Boot (Web, Data JPA, Validation, Security)
+- Banco de Dados H2 (para desenvolvimento)
+- Lombok
+- Swagger (OpenAPI) para documentação automática
+- Maven para gerenciamento de dependências
+- Thymeleaf para frontend
+- TailwindCSS para estilos
+
+---
+
+## 🔐 Controle de Acesso
+
+### ADMIN
+- Pode acessar todas as rotas: `/branch`, `/patio`, `/motorcycle`.
+- Pode criar operadores.
+- Footer exibe todos os links rápidos.
+- Botão de "Voltar" em formulários redireciona para `/`.
+
+### OPERADOR
+- Acesso restrito a `/motorcycle` e `/motorcycle/{id}`.
+- Footer não exibe links rápidos.
+- Botão de "Voltar" em formulários redireciona para `/motorcycle`.
+
+---
+
+## 🚀 Como Rodar o Projeto
+
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/seu-usuario/visionhive.git
+   ```
+
+2. Entre na pasta do projeto:
+   ```bash
+   cd VisionHive-Java
+   ```
+   
+3. Execute a aplicação:
+   ```bash
+   ./mvnw spring-boot:run
+   ```
+
+4. Acesse a aplicação via navegador web:
+   ```
+   http://localhost:8080/login
+   ```
+
+6. Acesse a documentação Swagger para testar as rotas:
+   ```
+   http://localhost:8080/swagger-ui/index.html
+   ```
+
+---
+
+## 👥 Integrantes
+
+| Nome                   | RM       |
+|------------------------|----------|
+| João Victor Michaeli   | RM555678 |
+| Larissa Muniz          | RM557197 |
+| Henrique Garcia        | RM558062 |
+
+---
+
+> Projeto acadêmico desenvolvido na FIAP para o Challenge 2025

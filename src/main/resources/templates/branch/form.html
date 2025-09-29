@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Base - Vision Hive</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #000000;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .mottu-green {
+            color: #00FF88;
+        }
+
+        .mottu-green-bg {
+            background-color: #00FF88;
+        }
+
+        .floating-icons {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .floating-icon {
+            position: absolute;
+            color: #00FF88;
+            opacity: 0.1;
+            animation: float 20s infinite linear;
+        }
+
+        .floating-icon:nth-child(1) {
+            top: 10%;
+            right: 10%;
+            font-size: 3rem;
+            animation-delay: 0s;
+        }
+
+        .floating-icon:nth-child(2) {
+            top: 70%;
+            left: 15%;
+            font-size: 2rem;
+            animation-delay: -8s;
+        }
+
+        .floating-icon:nth-child(3) {
+            top: 30%;
+            left: 80%;
+            font-size: 2.5rem;
+            animation-delay: -15s;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); opacity: 0.1; }
+            50% { transform: translateY(-30px) rotate(180deg); opacity: 0.05; }
+            100% { transform: translateY(0px) rotate(360deg); opacity: 0.1; }
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 255, 136, 0.1);
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 10;
+        }
+
+        .form-field {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .form-field:focus {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: #00FF88;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+        }
+
+        .mottu-button {
+            background: #00FF88;
+            color: #000000;
+            transition: all 0.3s ease;
+        }
+
+        .mottu-button:hover {
+            background: #00E67A;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 255, 136, 0.3);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+<div class="floating-icons">
+    <i class="floating-icon fas fa-motorcycle"></i>
+    <i class="floating-icon fas fa-wifi"></i>
+    <i class="floating-icon fas fa-map-marked-alt"></i>
+</div>
+
+<div class="content-wrapper">
+    <div th:insert="~{fragments/header :: header}"></div>
+
+    <main class="flex-1 flex items-center justify-center p-6">
+        <div class="glass-card rounded-2xl shadow-2xl p-8 w-full max-w-lg">
+
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-16 h-16 mottu-green-bg rounded-full mb-4">
+                    <i class="fas fa-plus text-2xl text-black"></i>
+                </div>
+                <h2 class="text-4xl font-bold mb-2 text-white">
+                    Cadastrar <span class="mottu-green">Base</span>
+                </h2>
+                <p class="text-gray-300">Adicione uma nova base IoT ao sistema Vision Hive</p>
+            </div>
+
+            <form th:action="@{/branch/form}" th:object="${branch}" method="post" class="space-y-6">
+                <div>
+                    <label class="flex items-center gap-2 text-white font-semibold mb-3">
+                        <i class="fas fa-building mottu-green"></i>
+                        Nome da Base:
+                    </label>
+                    <input type="text" th:field="*{nome}"
+                           class="form-field w-full px-4 py-3 rounded-xl text-white focus:outline-none"
+                           placeholder="Digite o nome da base"/>
+                    <div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"
+                         class="text-red-400 text-sm mt-2 flex items-center gap-2">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span th:text="*{nome}"></span>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="flex items-center gap-2 text-white font-semibold mb-3">
+                        <i class="fas fa-map-marker-alt mottu-green"></i>
+                        Localização:
+                    </label>
+                    <input type="text" th:field="*{bairro}"
+                           class="form-field w-full px-4 py-3 rounded-xl text-white focus:outline-none"
+                           placeholder="Digite a localização da base"/>
+                    <div th:if="${#fields.hasErrors('bairro')}" th:errors="*{bairro}"
+                         class="text-red-400 text-sm mt-2 flex items-center gap-2">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span th:text="*{bairro}"></span>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="flex items-center gap-2 text-white font-semibold mb-3">
+                        <i class="fas fa-id-card mottu-green"></i>
+                        CNPJ:
+                    </label>
+                    <input type="text" th:field="*{cnpj}"
+                           maxlength="14"
+                           class="form-field w-full px-4 py-3 rounded-xl text-white focus:outline-none"
+                           placeholder="00.000.000/0001-00"/>
+                    <div th:if="${#fields.hasErrors('cnpj')}" th:errors="*{cnpj}"
+                         class="text-red-400 text-sm mt-2 flex items-center gap-2">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span th:text="*{cnpj}"></span>
+                    </div>
+                </div>
+
+                <button type="submit"
+                        class="mottu-button w-full font-bold py-4 rounded-xl shadow-lg transition-all duration-300 mt-8">
+                    <i class="fas fa-save mr-2"></i>
+                    Cadastrar Base
+                </button>
+            </form>
+
+            <div class="mt-6">
+                <a th:href="@{/}"
+                   class="w-full bg-gray-800 hover:bg-gray-700 text-white font-semibold py-3 rounded-xl shadow-lg transition-all duration-300 text-center border border-gray-600 flex items-center justify-center gap-2">
+                    <i class="fas fa-arrow-left"></i>
+                    Voltar ao Dashboard
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</div>
+
+</body>
+</html>
