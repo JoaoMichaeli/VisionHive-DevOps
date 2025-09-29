@@ -58,8 +58,8 @@ az postgres flexible-server show-connection-string \
   --database-name postgres \
   --admin-user visionadmin \
   --admin-password 'Vision123!'
-
 ```
+
 ### Configure no App Service:
 ```bash
 az webapp config connection-string set \
@@ -67,6 +67,13 @@ az webapp config connection-string set \
   --name visionhive-app \
   --connection-string-type PostgreSQL \
   --settings 'DefaultConnection=jdbc:postgresql://visionhive-db.postgres.database.azure.com:5432/postgres?user=visionadmin&password=Vision123\!&sslmode=require'
+```
+
+### Verificar a connection string:
+```bash
+az webapp config connection-string list \
+  --resource-group rg-visionhive \
+  --name visionhive-app
 ```
 
 ## 7. Configurar variáveis de ambiente (App Settings) para Spring Boot
