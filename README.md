@@ -87,7 +87,19 @@ az webapp config appsettings set \
              SPRING_JPA_HIBERNATE_DDL_AUTO='update'
 ```
 
-## 8. Deploy do .jar no App Service
+### Verificar as variáveis de ambiente:
+```bash
+az webapp config appsettings list \
+  --resource-group rg-visionhive \
+  --name visionhive-app
+```
+
+## 8. Buildar o projeto:
+```bash
+gradle build
+```
+
+## 9. Deploy do .jar no App Service
 ```bash
 az webapp deploy \
   --resource-group rg-visionhive \
@@ -95,3 +107,17 @@ az webapp deploy \
   --type jar \
   --src-path build/libs/VisionHive-0.0.1-SNAPSHOT.jar
 ```
+
+## 10. Acessar o app:
+```text
+visionhive-app.azurewebsites.net
+```
+### Contas criadas para testes:
+#### Conta de Admin(Total fluxo no sistema):
+- Usuário: adminCM
+- Senha: admin123
+
+#### Conta de Operador(Fluxo somente na organização das motos):
+- Usuário: operadorCm
+- Senha: operador123
+
