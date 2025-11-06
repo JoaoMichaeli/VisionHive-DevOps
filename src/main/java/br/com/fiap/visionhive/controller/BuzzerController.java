@@ -25,8 +25,6 @@ public class BuzzerController {
     private Map<String, Object> ultimoStatusEsp32 = new ConcurrentHashMap<>();
     private LocalDateTime ultimaAtualizacaoEsp32 = null;
 
-    private final RestTemplate restTemplate = new RestTemplate();
-    private final ObjectMapper objectMapper = new ObjectMapper();
     private final BuzzerLogRepository buzzerLogRepository;
     private final MotorcycleRepository motorcycleRepository;
 
