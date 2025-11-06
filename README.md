@@ -137,5 +137,3 @@ Utilize as seguintes contas para testar o fluxo da aplicação:
 | João Victor Michaeli   | RM555678 |
 | Larissa Muniz          | RM557197 |
 | Henrique Garcia        | RM558062 |
-
----
