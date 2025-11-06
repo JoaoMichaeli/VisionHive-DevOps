@@ -1,0 +1,71 @@
+trigger:
+  branches:
+    include:
+      - main
+
+variables:
+  - group: DB-Credentials
+
+stages:
+  - stage: Build
+    displayName: 'CI - Build and Push Image'
+    jobs:
+      - job: BuildJob
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - task: Gradle@2
+            displayName: 'Build Java Application'
+            inputs:
+              gradleWrapperFile: 'gradlew'
+              tasks: 'clean assemble'
+              publishJUnitResults: false
+
+          - task: Docker@2
+            displayName: 'Build and Push Image to ACR'
+            inputs:
+              containerRegistry: 'ACRConnection'
+              repository: 'visionhive-app'
+              command: 'buildAndPush'
+              Dockerfile: '**/Dockerfile'
+              tags: |
+                latest
+
+  - stage: Deploy
+    displayName: 'CD - Deploy to Azure Container Instance (ACI)'
+    dependsOn: Build
+    condition: succeeded()
+    jobs:
+      - job: DeployJob
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - task: AzureCLI@2
+            displayName: 'Deploy to Azure Container Instance'
+            inputs:
+              azureSubscription: 'AzureConnection'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                az container delete \
+                  --name visionhive-aci \
+                  --resource-group rg-visionhive \
+                  --yes || true
+
+                az container create \
+                  --resource-group rg-visionhive \
+                  --name visionhive-aci \
+                  --image visionhiveacr.azurecr.io/visionhive-app:latest \
+                  --cpu 1 \
+                  --memory 1.5 \
+                  --registry-login-server visionhiveacr.azurecr.io \
+                  --registry-username $(ACR_USERNAME) \
+                  --registry-password $(ACR_PASSWORD) \
+                  --ports 8080 \
+                  --dns-name-label visionhive \
+                  --restart-policy OnFailure \
+                  --os-type Linux \
+                  --environment-variables \
+                    SPRING_DATASOURCE_URL="$(DB_URL)" \
+                    SPRING_DATASOURCE_USERNAME="$(DB_USER)" \
+                    SPRING_DATASOURCE_PASSWORD="$(DB_PASSWORD)"

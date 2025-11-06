@@ -39,46 +39,47 @@
                 DETALHES DA MOTOCICLETA
             </h2>
             <div class="flex items-center justify-center space-x-4 text-sm">
-                <div class="flex items-center text-green-400">
+                <div class="flex items-center text-gray-300" id="iotStatus">
                     <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse mr-2"></div>
                     IoT Online
                 </div>
                 <div class="text-gray-400">|</div>
-                <div class="text-gray-400">Última atualização: agora</div>
+                <div class="text-gray-300" id="lastUpdate">Última atualização: agora</div>
             </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
             <div class="bg-gray-900/60 backdrop-blur-sm border border-green-500/20 rounded-2xl p-6 text-center hover:border-green-500/40 transition-all duration-300">
                 <div class="text-3xl font-bold text-green-400 mb-2">
-                    <span id="batteryPercent">0</span>%
+                    <span id="signalQuality">0</span>%
                 </div>
-                <div class="text-gray-400 text-sm mb-2">Bateria</div>
+                <div class="text-gray-400 text-sm mb-2">Qualidade do Sinal</div>
                 <div class="w-full bg-gray-700 rounded-full h-2 mt-2">
-                    <div id="batteryBar" class="bg-gradient-to-r from-green-500 to-green-400 h-2 rounded-full" style="width: 0%"></div>
+                    <div id="signalBar" class="bg-gradient-to-r from-green-500 to-green-400 h-2 rounded-full" style="width: 0%"></div>
                 </div>
             </div>
+
             <div class="bg-gray-900/60 backdrop-blur-sm border border-green-500/20 rounded-2xl p-6 text-center hover:border-green-500/40 transition-all duration-300">
-                <div class="text-3xl font-bold text-green-400 mb-2">5G</div>
+                <div class="text-3xl font-bold text-green-400 mb-2">2.4G</div>
                 <div class="text-gray-400 text-sm">Conectividade</div>
                 <div class="flex justify-center mt-2">
                     <i class="fas fa-signal text-green-500 animate-pulse"></i>
                 </div>
             </div>
+
             <div class="bg-gray-900/60 backdrop-blur-sm border border-green-500/20 rounded-2xl p-6 text-center hover:border-green-500/40 transition-all duration-300">
-                <div class="border-green-500/20 rounded-2xl p-6 text-center hover:border-green-500/40 transition-all duration-300">
-                    <div class="flex flex-col items-center">
-                        <div class="text-3xl font-bold text-green-400 mb-2 flex items-center">
-                            <span id="pingDisplay">0.0s</span>
-                            <i id="pingIcon" class="fas fa-signal ml-2 text-green-400 animate-pulse"></i>
-                        </div>
-                        <div id="pingText" class="text-xs text-green-400 mt-1">...</div>
+                <div class="flex flex-col items-center">
+                    <div class="text-3xl font-bold text-green-400 mb-2 flex items-center">
+                        <span id="pingDisplay">0.0s</span>
+                        <i id="pingIcon" class="fas fa-signal ml-2 text-green-400 animate-pulse"></i>
                     </div>
+                    <div id="pingText" class="text-xs text-green-400 mt-1">...</div>
                 </div>
             </div>
+
             <div class="bg-gray-900/60 backdrop-blur-sm border border-green-500/20 rounded-2xl p-6 text-center hover:border-green-500/40 transition-all duration-300">
                 <div class="text-4xl font-bold text-green-400 mb-2">
-                    <span id="randomDays">0</span> Dias
+                    <span id="uptimeDisplay">0h</span>
                 </div>
                 <div class="text-gray-400 text-sm mb-4">Tempo total de monitoramento</div>
                 <div class="flex justify-center items-center space-x-2">
@@ -90,28 +91,16 @@
 
         <div class="bg-gray-900/40 backdrop-blur-xl border border-green-500/30 rounded-3xl shadow-2xl p-8 mb-8 hover:border-green-500/50 transition-all duration-500">
             <div class="flex flex-col lg:flex-row gap-8">
-
                 <div class="relative w-full lg:w-1/3 h-80 bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm flex justify-center items-center overflow-hidden rounded-2xl border border-green-500/20 group">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-green-500/10 z-10"></div>
-
-                    <div class="absolute top-4 left-4 z-20">
-                        <i class="fas fa-wifi text-green-500 text-lg animate-bounce"></i>
-                    </div>
-                    <div class="absolute top-4 right-4 z-20">
-                        <i class="fas fa-satellite-dish text-green-500 text-lg animate-bounce" style="animation-delay: 1s;"></i>
-                    </div>
-                    <div class="absolute bottom-4 left-4 z-20">
-                        <i class="fas fa-microchip text-green-500 text-lg animate-bounce" style="animation-delay: 2s;"></i>
-                    </div>
-                    <div class="absolute bottom-4 right-4 z-20">
-                        <i class="fas fa-broadcast-tower text-green-500 text-lg animate-bounce" style="animation-delay: 3s;"></i>
-                    </div>
-
+                    <div class="absolute top-4 left-4 z-20"><i class="fas fa-wifi text-green-500 text-lg animate-bounce"></i></div>
+                    <div class="absolute top-4 right-4 z-20"><i class="fas fa-satellite-dish text-green-500 text-lg animate-bounce" style="animation-delay: 1s;"></i></div>
+                    <div class="absolute bottom-4 left-4 z-20"><i class="fas fa-microchip text-green-500 text-lg animate-bounce" style="animation-delay: 2s;"></i></div>
+                    <div class="absolute bottom-4 right-4 z-20"><i class="fas fa-broadcast-tower text-green-500 text-lg animate-bounce" style="animation-delay: 3s;"></i></div>
                     <div class="relative z-15 text-center">
                         <i class="fas fa-motorcycle text-8xl text-green-500 group-hover:scale-110 transition-transform duration-300" style="filter: drop-shadow(0 0 20px #00FF88);"></i>
-                        <div class="text-green-400 text-sm mt-2 font-medium">Moto IoT</div>
+                        <div th:text="${motorcycle.placa}" class="text-white text-xl font-bold">ABC-1234</div>
                     </div>
-
                     <div class="absolute top-4 left-1/2 transform -translate-x-1/2 z-20">
                         <div class="bg-green-500/20 backdrop-blur-sm border border-green-500/50 rounded-full px-3 py-1 text-xs text-green-400 font-medium">
                             <div class="w-2 h-2 bg-green-500 rounded-full inline-block mr-2 animate-pulse"></div>
@@ -124,45 +113,23 @@
                     <div class="space-y-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="bg-gray-800/30 backdrop-blur-sm border border-green-500/20 rounded-xl p-4 hover:border-green-500/40 transition-all duration-300">
-                                <div class="flex items-center text-green-400 mb-2">
-                                    <i class="fas fa-id-card mr-3 text-lg"></i>
-                                    <span class="font-semibold">Placa</span>
-                                </div>
+                                <div class="flex items-center text-green-400 mb-2"><i class="fas fa-id-card mr-3 text-lg"></i><span class="font-semibold">Placa</span></div>
                                 <div th:text="${motorcycle.placa}" class="text-white text-xl font-bold">ABC-1234</div>
                             </div>
-
                             <div class="bg-gray-800/30 backdrop-blur-sm border border-green-500/20 rounded-xl p-4 hover:border-green-500/40 transition-all duration-300">
-                                <div class="flex items-center text-green-400 mb-2">
-                                    <i class="fas fa-barcode mr-3 text-lg"></i>
-                                    <span class="font-semibold">Chassi</span>
-                                </div>
+                                <div class="flex items-center text-green-400 mb-2"><i class="fas fa-barcode mr-3 text-lg"></i><span class="font-semibold">Chassi</span></div>
                                 <div th:text="${motorcycle.chassi}" class="text-white text-lg font-mono">123456789ABCDEFG</div>
                             </div>
-
                             <div class="bg-gray-800/30 backdrop-blur-sm border border-green-500/20 rounded-xl p-4 hover:border-green-500/40 transition-all duration-300">
-                                <div class="flex items-center text-green-400 mb-2">
-                                    <i class="fas fa-cogs mr-3 text-lg"></i>
-                                    <span class="font-semibold">Modelo(s)</span>
-                                </div>
+                                <div class="flex items-center text-green-400 mb-2"><i class="fas fa-cogs mr-3 text-lg"></i><span class="font-semibold">Modelo(s)</span></div>
                                 <div th:text="${#strings.listJoin(motorcycle.motorcycleModels, ', ')}" class="text-white text-lg">Modelo A, Modelo B</div>
                             </div>
-
                             <div class="bg-gray-800/30 backdrop-blur-sm border border-green-500/20 rounded-xl p-4 hover:border-green-500/40 transition-all duration-300">
-                                <div class="flex items-center text-green-400 mb-2">
-                                    <i class="fas fa-building mr-3 text-lg"></i>
-                                    <span class="font-semibold">Pátio</span>
-                                </div>
-                                <a th:href="@{'/patio/' + ${motorcycle.patio.id}}" th:text="${motorcycle.patio.nome}"
-                                   class="text-green-400 hover:text-green-300 text-lg font-medium hover:underline transition-colors">
-                                    Pátio Exemplo
-                                </a>
+                                <div class="flex items-center text-green-400 mb-2"><i class="fas fa-building mr-3 text-lg"></i><span class="font-semibold">Pátio</span></div>
+                                <a th:href="@{'/patio/' + ${motorcycle.patio.id}}" th:text="${motorcycle.patio.nome}" class="text-green-400 hover:text-green-300 text-lg font-medium hover:underline transition-colors">Pátio Exemplo</a>
                             </div>
-
                             <div class="bg-gray-800/30 backdrop-blur-sm border border-green-500/20 rounded-xl p-4 hover:border-green-500/40 transition-all duration-300">
-                                <div class="flex items-center text-green-400 mb-2">
-                                    <i class="fa-solid fa-business-time mr-3 text-lg"></i>
-                                    <span class="font-semibold">Situação</span>
-                                </div>
+                                <div class="flex items-center text-green-400 mb-2"><i class="fa-solid fa-business-time mr-3 text-lg"></i><span class="font-semibold">Situação</span></div>
                                 <div th:text="${motorcycle.situacao}" class="text-white text-lg font-mono"></div>
                             </div>
                         </div>
@@ -170,34 +137,23 @@
 
                     <div class="flex flex-col sm:flex-row gap-4 mt-8">
                         <form th:action="@{'/motorcycle/edit/' + ${motorcycle.id}}" method="get" class="flex-1">
-                            <button type="submit"
-                                    class="w-full bg-gray-800/50 backdrop-blur-sm hover:bg-gray-700/50 text-green-400 py-4 px-6 rounded-xl transition-all duration-300 border border-green-500/30 hover:border-green-500/50 text-center font-bold text-lg flex items-center justify-center cursor-pointer">
-                                <i class="fas fa-edit mr-3"></i>
-                                EDITAR
+                            <button type="submit" class="w-full bg-gray-800/50 backdrop-blur-sm hover:bg-gray-700/50 text-green-400 py-4 px-6 rounded-xl transition-all duration-300 border border-green-500/30 hover:border-green-500/50 text-center font-bold text-lg flex items-center justify-center cursor-pointer">
+                                <i class="fas fa-edit mr-3"></i> EDITAR
                             </button>
                         </form>
-
                         <form onsubmit="abrirModal(); return false;" class="flex-1">
-                            <button type="submit"
-                                    class="w-full bg-gradient-to-r from-green-500 to-green-400 hover:from-green-600 hover:to-green-500 text-black py-4 px-6 rounded-xl transition-all duration-300 text-center font-bold text-lg shadow-lg shadow-green-500/30 hover:shadow-green-500/50 hover:scale-105 flex items-center justify-center">
-                                <i class="fa-regular fa-bell mr-3"></i>
-                                LOCALIZAR
+                            <button type="submit" class="w-full bg-gradient-to-r from-green-500 to-green-400 hover:from-green-600 hover:to-green-500 text-black py-4 px-6 rounded-xl transition-all duration-300 text-center font-bold text-lg shadow-lg shadow-green-500/30 hover:shadow-green-500/50 hover:scale-105 flex items-center justify-center">
+                                <i class="fa-regular fa-bell mr-3"></i> LOCALIZAR
                             </button>
                         </form>
-
                         <form th:action="@{'/motorcycle/delete/' + ${motorcycle.id}}" method="post" class="flex-1">
-                            <button type="button"
-                                    class="desativar-btn w-full bg-gradient-to-r from-red-400 to-red-300 hover:from-red-500 hover:to-red-400 text-black py-4 px-6 rounded-xl transition-all duration-300 text-center font-bold text-lg shadow-lg shadow-red-400/30 hover:shadow-red-400/50 hover:scale-105 flex items-center justify-center">
-                                <i class="fa-regular fa-eye-slash mr-3"></i>
-                                DESATIVAR
+                            <button type="button" class="desativar-btn w-full bg-gradient-to-r from-red-400 to-red-300 hover:from-red-500 hover:to-red-400 text-black py-4 px-6 rounded-xl transition-all duration-300 text-center font-bold text-lg shadow-lg shadow-red-400/30 hover:shadow-red-400/50 hover:scale-105 flex items-center justify-center">
+                                <i class="fa-regular fa-eye-slash mr-3"></i> DESATIVAR
                             </button>
                         </form>
-
                         <form th:action="@{/motorcycle}" method="get" class="flex-1">
-                            <button type="submit"
-                                    class="w-full bg-gray-800/50 backdrop-blur-sm hover:bg-gray-700/50 text-green-400 py-4 px-6 rounded-xl transition-all duration-300 border border-green-500/30 hover:border-green-500/50 text-center font-bold text-lg flex items-center justify-center">
-                                <i class="fas fa-arrow-left mr-3"></i>
-                                VOLTAR
+                            <button type="submit" class="w-full bg-gray-800/50 backdrop-blur-sm hover:bg-gray-700/50 text-green-400 py-4 px-6 rounded-xl transition-all duration-300 border border-green-500/30 hover:border-green-500/50 text-center font-bold text-lg flex items-center justify-center">
+                                <i class="fas fa-arrow-left mr-3"></i> VOLTAR
                             </button>
                         </form>
                     </div>
@@ -220,43 +176,26 @@
                 <i class="fas fa-history mr-3 text-green-500"></i>
                 Histórico de Atividades
             </h3>
-            <div class="space-y-4">
-                <div class="flex items-center p-4 bg-gray-800/30 rounded-xl border border-green-500/20">
-                    <div class="w-3 h-3 bg-green-500 rounded-full mr-4 animate-pulse"></div>
-                    <div class="flex-1">
-                        <div class="text-white font-medium">Conectada ao sistema IoT</div>
-                        <div class="text-gray-400 text-sm">Há 2 minutos</div>
-                    </div>
-                    <i class="fas fa-wifi text-green-500"></i>
-                </div>
-                <div class="flex items-center p-4 bg-gray-800/30 rounded-xl border border-green-500/20">
-                    <div class="w-3 h-3 bg-blue-500 rounded-full mr-4"></div>
-                    <div class="flex-1">
-                        <div class="text-white font-medium">Bateria carregada - 98%</div>
-                        <div class="text-gray-400 text-sm">Há 1 hora</div>
-                    </div>
-                    <i class="fas fa-battery-full text-blue-500"></i>
-                </div>
-                <div class="flex items-center p-4 bg-gray-800/30 rounded-xl border border-green-500/20">
-                    <div class="w-3 h-3 bg-yellow-500 rounded-full mr-4"></div>
-                    <div class="flex-1">
-                        <div class="text-white font-medium">Localização atualizada</div>
-                        <div class="text-gray-400 text-sm">Há 3 horas</div>
-                    </div>
-                    <i class="fas fa-map-marker-alt text-yellow-500"></i>
-                </div>
-            </div>
+            <div class="space-y-4" id="historyContainer"></div>
         </div>
     </div>
 </main>
 
-<div id="modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center hidden z-50">
-    <div class="bg-gray-900 text-green-400 rounded-2xl shadow-xl p-6 w-80 text-center border border-green-500/40">
-        <h2 class="text-xl font-bold mb-4">Localizando moto...</h2>
-        <p class="mb-6">Estamos processando sua solicitação.</p>
-        <button onclick="fecharModal()" class="bg-green-500/20 hover:bg-green-500/30 text-green-300 font-semibold py-2 px-4 rounded-lg border border-green-400/40 transition-all">
-            Fechar
-        </button>
+<div id="modal" class="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center hidden z-50 transition-opacity duration-300">
+    <div class="bg-gradient-to-br from-gray-900 to-black text-green-400 rounded-3xl shadow-2xl p-8 w-96 text-center border border-green-500/30 transform transition-all scale-95 hover:scale-100">
+        <h2 class="text-2xl font-extrabold mb-3 tracking-wide">Localizando moto</h2>
+        <div class="flex flex-col gap-3">
+            <button onclick="acionarBuzzer()" class="bg-green-500/20 hover:bg-green-500/40 text-green-300 font-semibold py-2 px-4 rounded-xl border border-green-400/40 transition-all duration-200 hover:scale-105">
+                Ativar Buzzer
+            </button>
+            <button onclick="pararBuzzer()" class="bg-red-500/20 hover:bg-red-500/40 text-red-300 font-semibold py-2 px-4 rounded-xl border border-red-400/40 transition-all duration-200 hover:scale-105">
+                Desativar Buzzer
+            </button>
+            <button onclick="fecharModal()" class="mt-4 bg-green-500/10 hover:bg-green-500/20 text-green-200 font-medium py-2 px-4 rounded-xl border border-green-400/30 transition-all duration-200">
+                Fechar
+            </button>
+        </div>
+        <p id="statusMsg" class="mt-5 text-sm text-gray-400"></p>
     </div>
 </div>
 
@@ -265,170 +204,224 @@
         <h2 class="text-lg font-bold text-white mb-4">Confirmar Desativação</h2>
         <p class="text-gray-300 mb-6">Tem certeza que deseja desativar esta moto?</p>
         <div class="flex justify-between">
-            <button id="cancel-btn"
-                    class="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors">
-                Cancelar
-            </button>
-            <button id="confirm-btn"
-                    class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition-colors">
-                Confirmar
-            </button>
+            <button id="cancel-btn" class="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors">Cancelar</button>
+            <button id="confirm-btn" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition-colors">Confirmar</button>
         </div>
     </div>
 </div>
 
-
 <div th:replace="fragments/footer :: footer"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Certifique-se de incluir o Chart.js -->
 <script>
-    function abrirModal() {
-        document.getElementById('modal').classList.remove('hidden');
-    }
-    function fecharModal() {
-        document.getElementById('modal').classList.add('hidden');
-    }
-</script>
+    async function acionarBuzzer() {
+        const id = getMotoIdFromUrl();
+        if (!id) return mostrarMensagem("ID da moto não encontrado.");
 
-<script>
-    const modal = document.getElementById('confirm-modal');
-    const cancelBtn = document.getElementById('cancel-btn');
-    const confirmBtn = document.getElementById('confirm-btn');
+        try {
+            const response = await fetch(`/api/acionar-buzzer/moto/${id}`);
+            const texto = await response.text();
+            mostrarMensagem(response.ok
+                ? "Buzzer ativado! (Comando enviado ao ESP)"
+                : `Erro: ${texto}`
+            );
+        } catch {
+            mostrarMensagem("Falha na comunicação com o servidor Java.");
+        }
+    }
 
-    document.querySelectorAll('.desativar-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            modal.dataset.formId = this.closest('form').dataset.formId;
-            modal.form = this.closest('form');
+    async function pararBuzzer() {
+        const id = getMotoIdFromUrl();
+        if (!id) return mostrarMensagem("ID da moto não encontrado.");
+
+        try {
+            const response = await fetch(`/api/parar-buzzer/moto/${id}`);
+            const texto = await response.text();
+            mostrarMensagem(response.ok
+                ? "Buzzer desativado! (Comando enviado ao ESP)"
+                : `Erro: ${texto}`
+            );
+        } catch {
+            mostrarMensagem("Falha na comunicação com o servidor Java.");
+        }
+    }
+
+    function getMotoIdFromUrl() {
+        const path = window.location.pathname;
+        const match = path.match(/\/motorcycle\/(\d+)$/);
+        return match ? match[1] : null;
+    }
+
+    function mostrarMensagem(msg) {
+        const status = document.getElementById("statusMsg");
+        if (status) { // Verifica se o elemento existe
+            status.innerText = msg;
+            status.classList.add("animate-pulse");
+            setTimeout(() => status.classList.remove("animate-pulse"), 1000);
+        } else {
+            console.log("Mensagem: " + msg); // Fallback se statusMsg não existir na tela principal
+        }
+    }
+
+    function abrirModal() { document.getElementById('modal').classList.remove('hidden'); }
+    function fecharModal() { document.getElementById('modal').classList.add('hidden'); }
+
+    document.querySelectorAll('.desativar-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const modal = document.getElementById('confirm-modal');
+            modal.form = btn.closest('form');
             modal.classList.remove('hidden');
         });
     });
+    document.getElementById('cancel-btn').addEventListener('click', () => document.getElementById('confirm-modal').classList.add('hidden'));
+    document.getElementById('confirm-btn').addEventListener('click', () => document.getElementById('confirm-modal').form.submit());
 
-    cancelBtn.addEventListener('click', () => {
-        modal.classList.add('hidden');
-    });
 
-    confirmBtn.addEventListener('click', () => {
-        modal.form.submit();
-    });
-</script>
+    // --- SEÇÃO DE ATUALIZAÇÃO DO DASHBOARD (REATIVADA E AJUSTADA) ---
+    let chart; // Sua variável do Chart.js
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const ctx = document.getElementById('performanceChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00', '24:00'],
-                datasets: [{
-                    label: 'Bateria (%)',
-                    data: [95, 92, 88, 85, 90, 95, 98],
-                    borderColor: '#00FF88',
-                    backgroundColor: 'rgba(0, 255, 136, 0.1)',
-                    tension: 0.4,
-                    fill: true
-                }, {
-                    label: 'Sinal (dBm)',
-                    data: [-45, -42, -48, -50, -46, -44, -43],
-                    borderColor: '#10B981',
-                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                    tension: 0.4,
-                    fill: true
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        labels: {
-                            color: '#ffffff'
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        ticks: {
-                            color: '#9CA3AF'
-                        },
-                        grid: {
-                            color: 'rgba(0, 255, 136, 0.1)'
+    async function updateRealData() {
+        try {
+            const response = await fetch('/api/status'); // Busca o status do Java (que o ESP32 enviou)
+            const data = await response.json();
+
+            // Elementos do seu dashboard
+            const iotStatusEl = document.getElementById('iotStatus'); // Supondo um elemento como <div id="iotStatus">
+            const lastUpdateEl = document.getElementById('lastUpdate'); // Supondo <span id="lastUpdate">
+
+            // Verifica se o ESP32 está conectado (baseado na lógica do Java)
+            if (!data.connected) {
+                if (iotStatusEl) iotStatusEl.innerHTML = '<div class="w-2 h-2 bg-red-500 rounded-full mr-2"></div> IoT Offline';
+                if (lastUpdateEl) lastUpdateEl.innerText = 'Última atualização: falhou';
+                // Limpar ou desabilitar o gráfico se offline
+                if (chart) chart.destroy(); chart = null; // Destrói o gráfico para evitar dados antigos/erros
+                document.getElementById('signalQuality').innerText = 'N/A';
+                document.getElementById('signalBar').style.width = '0%';
+                document.getElementById('pingDisplay').innerText = 'N/A';
+                document.getElementById('pingText').innerText = 'N/A';
+                document.getElementById('uptimeDisplay').innerText = 'N/A';
+                return;
+            }
+
+            // Se conectado, atualiza o status visual
+            if (iotStatusEl) iotStatusEl.innerHTML = '<div class="w-2 h-2 bg-green-500 rounded-full animate-pulse mr-2"></div> IoT Online';
+            if (lastUpdateEl) lastUpdateEl.innerText = 'Última atualização: ' + (data.lastUpdateTimestamp ? new Date(data.lastUpdateTimestamp).toLocaleTimeString('pt-BR') : 'agora');
+
+            // Atualiza Qualidade de Sinal
+            const quality = data.signalQuality || 0;
+            if (document.getElementById('signalQuality')) document.getElementById('signalQuality').innerText = quality;
+            if (document.getElementById('signalBar')) document.getElementById('signalBar').style.width = quality + '%';
+
+            // Atualiza Ping
+            const ping = (data.ping || 0.0).toFixed(1);
+            if (document.getElementById('pingDisplay')) document.getElementById('pingDisplay').innerText = ping + 's';
+            const pingQuality = ping <= 1.0 ? 'Excelente' : ping <= 2.0 ? 'Bom' : 'Ruim';
+            const pingColor = ping <= 1.0 ? '#00FF88' : ping <= 2.0 ? '#FACC15' : '#F87171';
+            if (document.getElementById('pingText')) document.getElementById('pingText').innerText = pingQuality;
+            // Se você tiver um ícone, atualize a cor
+            // if (document.getElementById('pingIcon')) document.getElementById('pingIcon').style.color = pingColor;
+
+            // Atualiza Uptime
+            const days = data.uptimeDays || 0;
+            const hours = Math.floor((data.uptimeHours || 0) % 24);
+            if (document.getElementById('uptimeDisplay')) document.getElementById('uptimeDisplay').innerText = days > 0 ? `${days} Dias` : `${hours}h`;
+
+            // Atualiza o Gráfico (se houver dados)
+            updateChart(quality, data.rssi || -60);
+
+            // Atualiza o Histórico de Atividades
+            updateHistory(data);
+
+        } catch (error) {
+            console.error('Erro ao buscar dados do ESP32:', error);
+            // Garante que o dashboard reflita o estado de erro
+            if (document.getElementById('iotStatus')) document.getElementById('iotStatus').innerHTML = '<div class="w-2 h-2 bg-red-500 rounded-full mr-2"></div> IoT Offline';
+            if (document.getElementById('lastUpdate')) document.getElementById('lastUpdate').innerText = 'Última atualização: falhou';
+            if (chart) chart.destroy(); chart = null;
+            document.getElementById('signalQuality').innerText = 'N/A';
+            document.getElementById('signalBar').style.width = '0%';
+            document.getElementById('pingDisplay').innerText = 'N/A';
+            document.getElementById('pingText').innerText = 'N/A';
+            document.getElementById('uptimeDisplay').innerText = 'N/A';
+        }
+    }
+
+    // --- Sua função updateChart (ajustada para não recriar a cada chamada se já existir) ---
+    function updateChart(quality, rssi) {
+        const labels = ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00', '24:00'];
+        // Usaremos dados fictícios para o gráfico, pois não temos histórico do ESP32 no Java
+        // Você pode ajustar isso se quiser armazenar um histórico no Java.
+        const qualData = Array(7).fill(quality).map(v => Math.max(0, Math.min(100, v + (Math.random() * 10 - 5))));
+        const rssiData = Array(7).fill(rssi).map(v => v + (Math.random() * 4 - 2));
+
+        const ctx = document.getElementById('performanceChart');
+        if (!ctx) return; // Se o canvas não existe, não faz nada
+
+        if (!chart) {
+            chart = new Chart(ctx.getContext('2d'), {
+                type: 'line',
+                data: { labels, datasets: [
+                        { label: 'Qualidade Sinal (%)', data: qualData, borderColor: '#00FF88', backgroundColor: 'rgba(0,255,136,0.1)', tension: 0.4, fill: true },
+                        { label: 'Sinal (dBm)', data: rssiData, borderColor: '#10B981', backgroundColor: 'rgba(16,185,129,0.1)', tension: 0.4, fill: true }
+                    ]},
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#fff'
+                            }
                         }
                     },
-                    y: {
-                        ticks: {
-                            color: '#9CA3AF'
+                    scales: {
+                        x: {
+                            ticks: { color: '#9CA3AF' },
+                            grid: { color: 'rgba(255,255,255,0.1)' }
                         },
-                        grid: {
-                            color: 'rgba(0, 255, 136, 0.1)'
+                        y: {
+                            ticks: { color: '#9CA3AF' },
+                            grid: { color: 'rgba(255,255,255,0.1)' }
                         }
                     }
                 }
-            }
-        });
-    });
-</script>
-
-<script>
-    const diasAleatorios = Math.floor(Math.random() * 100) + 1;
-    document.getElementById('randomDays').innerText = diasAleatorios;
-</script>
-
-<script>
-    const batteryPercent = Math.floor(Math.random() * 81) + 20;
-    const batteryDisplay = document.getElementById('batteryPercent');
-    const batteryBar = document.getElementById('batteryBar');
-
-    let current = 0;
-    const interval = setInterval(() => {
-        if(current < batteryPercent){
-            current++;
-            batteryDisplay.innerText = current;
-            batteryBar.style.width = current + '%';
+            });
         } else {
-            clearInterval(interval);
+            // Atualiza os dados do gráfico existente
+            chart.data.datasets[0].data = qualData;
+            chart.data.datasets[1].data = rssiData;
+            chart.update('quiet'); // 'quiet' para não animar a atualização
         }
-    }, 10);
-</script>
+    }
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const pingDisplay = document.getElementById('pingDisplay');
-        const pingText = document.getElementById('pingText');
-        const pingIcon = document.getElementById('pingIcon');
+    // --- Sua função updateHistory (ajustada para usar os novos dados) ---
+    function updateHistory(data) {
+        const now = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        const temp = data.temperature ? data.temperature.toFixed(1) + '°C' : 'N/A';
+        const voltage = data.voltage ? data.voltage.toFixed(2) + 'V' : 'N/A';
 
-        const pingValue = (Math.random() * 2.5 + 0.5).toFixed(1);
+        // Aqui você pode criar atividades dinamicamente com base nos dados do ESP32
+        const activities = [
+            { icon: 'wifi', color: 'green', text: `Sinal: ${data.rssi || 0} dBm`, time: now },
+            { icon: 'plug', color: 'blue', text: `Alimentação: ${voltage}`, time: now },
+            { icon: 'thermometer-half', color: 'yellow', text: `Chip: ${temp}`, time: now }
+        ];
 
-        let pingQuality = '';
-        let color = '';
-        if (pingValue <= 1.0) {
-            pingQuality = 'Excelente';
-            color = '#00FF88';
-        } else if (pingValue <= 2.0) {
-            pingQuality = 'Bom';
-            color = '#FACC15';
-        } else {
-            pingQuality = 'Ruim';
-            color = '#F87171';
+        const historyContainer = document.getElementById('historyContainer');
+        if (historyContainer) {
+            historyContainer.innerHTML = activities.map(a => `
+                <div class="flex items-center p-4 bg-gray-800/30 rounded-xl border border-green-500/20">
+                    <div class="w-3 h-3 bg-${a.color}-500 rounded-full mr-4"></div>
+                    <div class="flex-1"><div class="text-white font-medium">${a.text}</div><div class="text-gray-400 text-sm">${a.time}</div></div>
+                    <i class="fas fa-${a.icon} text-${a.color}-500"></i>
+                </div>
+            `).join('');
         }
+    }
 
-        pingText.innerText = pingQuality;
-        pingIcon.style.color = color;
-
-        let currentPing = 0.0;
-        const steps = 20;
-        const increment = pingValue / steps;
-        let count = 0;
-
-        const pingInterval = setInterval(() => {
-            if (count < steps) {
-                currentPing += increment;
-                pingDisplay.innerText = currentPing.toFixed(1) + 's';
-                count++;
-            } else {
-                pingDisplay.innerText = pingValue + 's';
-                clearInterval(pingInterval);
-            }
-        }, 50);
-    });
+    // --- Inicia o polling do JavaScript para buscar o status do Java ---
+    setInterval(updateRealData, 5000); // Busca o status do Java a cada 5 segundos
+    updateRealData(); // Chama uma vez ao carregar a página
 </script>
 
 </body>
