@@ -33,7 +33,7 @@ Assista ao passo a passo da configuração e deploy neste vídeo:
 
 # Arquitetura do Sistema
 
-![Diagrama de Arquitetura](./imagens/arquitetura.png)
+
 
 ## Componentes da Arquitetura
 
