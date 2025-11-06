@@ -261,8 +261,9 @@
                                     <span>Detalhes</span>
                                 </a>
                                 <form onsubmit="abrirModal(); return false;">
+                                    <input type="hidden" th:value="${moto.id}" class="moto-id-input" />
                                     <button type="submit"
-                                            class="bg-green-500 hover:bg-green-600 text-black font-bold py-2 px-5 rounded-xl shadow-md transition-all duration-300 flex items-center gap-2 cursor-pointer">
+                                            class="bg-green-500 hover:bg-green-600 text-black font-bold py-2 px-5 rounded-xl shadow-md transition-all duration-300 flex items-center gap-2 cursor-pointer localizar-btn">
                                         <i class="fa-regular fa-bell mr-3"></i>
                                         LOCALIZAR
                                     </button>
@@ -303,29 +304,21 @@
 
 <div id="modal" class="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center hidden z-50 transition-opacity duration-300">
     <div class="bg-gradient-to-br from-gray-900 to-black text-green-400 rounded-3xl shadow-2xl p-8 w-96 text-center border border-green-500/30 transform transition-all scale-95 hover:scale-100">
-
         <h2 class="text-2xl font-extrabold mb-3 tracking-wide">Localizando moto</h2>
-
         <div class="flex flex-col gap-3">
             <button
-                    onclick="acionarBuzzer()"
-                    class="bg-green-500/20 hover:bg-green-500/40 text-green-300 font-semibold py-2 px-4 rounded-xl border border-green-400/40 transition-all duration-200 hover:scale-105">
+                    onclick="acionarBuzzer()" class="bg-green-500/20 hover:bg-green-500/40 text-green-300 font-semibold py-2 px-4 rounded-xl border border-green-400/40 transition-all duration-200 hover:scale-105">
                 Ativar Buzzer
             </button>
-
             <button
-                    onclick="pararBuzzer()"
-                    class="bg-red-500/20 hover:bg-red-500/40 text-red-300 font-semibold py-2 px-4 rounded-xl border border-red-400/40 transition-all duration-200 hover:scale-105">
+                    onclick="pararBuzzer()" class="bg-red-500/20 hover:bg-red-500/40 text-red-300 font-semibold py-2 px-4 rounded-xl border border-red-400/40 transition-all duration-200 hover:scale-105">
                 Desativar Buzzer
             </button>
-
             <button
-                    onclick="fecharModal()"
-                    class="mt-4 bg-green-500/10 hover:bg-green-500/20 text-green-200 font-medium py-2 px-4 rounded-xl border border-green-400/30 transition-all duration-200">
+                    onclick="fecharModal()" class="mt-4 bg-green-500/10 hover:bg-green-500/20 text-green-200 font-medium py-2 px-4 rounded-xl border border-green-400/30 transition-all duration-200">
                 Fechar
             </button>
         </div>
-
         <p id="statusMsg" class="mt-5 text-sm text-gray-400"></p>
     </div>
 </div>
@@ -334,42 +327,37 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+    let currentMotoId = null;
+
+    document.querySelectorAll('.localizar-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const form = this.closest('form');
+            currentMotoId = form.querySelector('.moto-id-input').value;
+        });
+    });
+
     async function acionarBuzzer() {
-        const id = getMotoIdFromUrl();
-        if (!id) return mostrarMensagem("ID da moto não encontrado.");
+        if (!currentMotoId) return mostrarMensagem("ID da moto não encontrado.");
 
         try {
-            const response = await fetch(`/api/acionar-buzzer/moto/${id}`);
+            const response = await fetch(`/api/acionar-buzzer/moto/${currentMotoId}`);
             const texto = await response.text();
-            mostrarMensagem(response.ok
-                ? "Buzzer ativado! (Comando enviado ao ESP)"
-                : `Erro: ${texto}`
-            );
-        } catch {
+            mostrarMensagem(response.ok ? "Buzzer ativado! (Comando enviado ao ESP)" : `Erro: ${texto}`);
+        } catch (e) {
             mostrarMensagem("Falha na comunicação com o servidor Java.");
         }
     }
 
     async function pararBuzzer() {
-        const id = getMotoIdFromUrl();
-        if (!id) return mostrarMensagem("ID da moto não encontrado.");
+        if (!currentMotoId) return mostrarMensagem("ID da moto não encontrado.");
 
         try {
-            const response = await fetch(`/api/parar-buzzer/moto/${id}`);
+            const response = await fetch(`/api/parar-buzzer/moto/${currentMotoId}`);
             const texto = await response.text();
-            mostrarMensagem(response.ok
-                ? "Buzzer desativado! (Comando enviado ao ESP)"
-                : `Erro: ${texto}`
-            );
-        } catch {
+            mostrarMensagem(response.ok ? "Buzzer desativado!" : `Erro: ${texto}`);
+        } catch (e) {
             mostrarMensagem("Falha na comunicação com o servidor Java.");
         }
-    }
-
-    function getMotoIdFromUrl() {
-        const path = window.location.pathname;
-        const match = path.match(/\/motorcycle\/(\d+)$/);
-        return match ? match[1] : null;
     }
 
     function mostrarMensagem(msg) {
