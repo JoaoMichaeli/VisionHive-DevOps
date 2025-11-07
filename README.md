@@ -13,7 +13,7 @@ Assista ao passo a passo da configuração e deploy neste vídeo:
 
 # Link para acessar a aplicação:
 
-[http://visionhive.brazilsouth.azurecontainer.io:8080/login]
+[http://visionhive.brazilsouth.azurecontainer.io:8080/login](http://visionhive.brazilsouth.azurecontainer.io:8080/login)
 
 ## Login para testes como admin
 
