@@ -9,7 +9,7 @@ Além disso, esse repositório possui o .azure-pipelines.yml, ou seja, implement
 # Video demonstração Passo a Passo:
 Assista ao passo a passo da configuração e deploy neste vídeo:
 
-[https://youtu.be/FOvRFe8t4co](https://youtu.be/FOvRFe8t4co)
+[https://youtu.be/W9yTDpUTWRw](https://youtu.be/W9yTDpUTWRw)
 
 # Link para acessar a aplicação:
 
