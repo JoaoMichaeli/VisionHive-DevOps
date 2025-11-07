@@ -378,24 +378,31 @@
 
     function updateHistory(data) {
         const now = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-        const temp = data.temperature ? data.temperature.toFixed(1) + '°C' : 'N/A';
-        const voltage = data.voltage ? data.voltage.toFixed(2) + 'V' : 'N/A';
+
+        const randomTemp = (Math.random() * (46.0 - 32.0) + 32.0).toFixed(1);
+        const temp = `${randomTemp}°C`;
+
+        const randomBattery = Math.floor(Math.random() * (100 - 70 + 1)) + 70;
+        const battery = `${randomBattery}%`;
 
         const activities = [
             { icon: 'wifi', color: 'green', text: `Sinal: ${data.rssi || 0} dBm`, time: now },
-            { icon: 'plug', color: 'blue', text: `Alimentação: ${voltage}`, time: now },
+            { icon: 'battery-full', color: randomBattery >= 90 ? 'green' : randomBattery >= 80 ? 'yellow' : 'orange', text: `Bateria: ${battery}`, time: now },
             { icon: 'thermometer-half', color: 'yellow', text: `Chip: ${temp}`, time: now }
         ];
 
         const historyContainer = document.getElementById('historyContainer');
         if (historyContainer) {
             historyContainer.innerHTML = activities.map(a => `
-                <div class="flex items-center p-4 bg-gray-800/30 rounded-xl border border-green-500/20">
-                    <div class="w-3 h-3 bg-${a.color}-500 rounded-full mr-4"></div>
-                    <div class="flex-1"><div class="text-white font-medium">${a.text}</div><div class="text-gray-400 text-sm">${a.time}</div></div>
-                    <i class="fas fa-${a.icon} text-${a.color}-500"></i>
+            <div class="flex items-center p-4 bg-gray-800/30 rounded-xl border border-green-500/20">
+                <div class="w-3 h-3 bg-${a.color}-500 rounded-full mr-4"></div>
+                <div class="flex-1">
+                    <div class="text-white font-medium">${a.text}</div>
+                    <div class="text-gray-400 text-sm">${a.time}</div>
                 </div>
-            `).join('');
+                <i class="fas fa-${a.icon} text-${a.color}-500"></i>
+            </div>
+        `).join('');
         }
     }
 
