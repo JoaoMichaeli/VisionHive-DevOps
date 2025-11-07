@@ -59,7 +59,7 @@
                 </div>
             </div>
 
-            <div class="bg-gray-900/60 backdrop-blur-sm border border-green-500/20 rounded-2xl p-6 text-center hover:border-green-500/40 transition-all duration-300">
+            <div id="connectivityCard" class="bg-gray-900/60 backdrop-blur-sm border border-green-500/20 rounded-2xl p-6 text-center hover:border-green-500/40 transition-all duration-300 opacity-0 scale-95 pointer-events-none">
                 <div class="text-3xl font-bold text-green-400 mb-2">2.4G</div>
                 <div class="text-gray-400 text-sm">Conectividade</div>
                 <div class="flex justify-center mt-2">
@@ -278,6 +278,26 @@
 
     let chart;
 
+    function rssiToQuality(rssi) {
+        if (rssi >= -50) return 100;
+        if (rssi >= -60) return 90;
+        if (rssi >= -70) return 75;
+        if (rssi >= -80) return 50;
+        if (rssi >= -90) return 25;
+        return 10;
+    }
+
+    function updateConnectivityCard(isOnline, rssi) {
+        const card = document.getElementById('connectivityCard');
+        if (isOnline && rssi > -95) {
+            card.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
+            card.classList.add('opacity-100', 'scale-100', 'pointer-events-auto');
+        } else {
+            card.classList.remove('opacity-100', 'scale-100', 'pointer-events-auto');
+            card.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+        }
+    }
+
     async function updateRealData() {
         try {
             const response = await fetch('/api/status');
@@ -285,6 +305,16 @@
 
             const iotStatusEl = document.getElementById('iotStatus');
             const lastUpdateEl = document.getElementById('lastUpdate');
+
+            const isOnline = data.connected && data.rssi > -95;
+
+            if (isOnline) {
+                iotStatusEl.innerHTML = '<div class="w-2 h-2 bg-green-500 rounded-full animate-pulse mr-2"></div> IoT Online';
+                lastUpdateEl.innerText = 'Última atualização: ' + (data.lastUpdateTimestamp ? new Date(data.lastUpdateTimestamp).toLocaleTimeString('pt-BR') : 'agora');
+            } else {
+                iotStatusEl.innerHTML = '<div class="w-2 h-2 bg-red-500 rounded-full mr-2"></div> IoT Offline';
+                lastUpdateEl.innerText = 'Última atualização: desconectado';
+            }
 
             if (!data.connected) {
                 if (iotStatusEl) iotStatusEl.innerHTML = '<div class="w-2 h-2 bg-red-500 rounded-full mr-2"></div> IoT Offline';
@@ -314,6 +344,8 @@
             const days = data.uptimeDays || 0;
             const hours = Math.floor((data.uptimeHours || 0) % 24);
             if (document.getElementById('uptimeDisplay')) document.getElementById('uptimeDisplay').innerText = days > 0 ? `${days} Dias` : `${hours}h`;
+
+            updateConnectivityCard(isOnline, data.rssi);
 
             updateChart(quality, data.rssi || -60);
 
@@ -382,12 +414,12 @@
         const randomTemp = (Math.random() * (46.0 - 32.0) + 32.0).toFixed(1);
         const temp = `${randomTemp}°C`;
 
-        const randomBattery = Math.floor(Math.random() * (100 - 70 + 1)) + 70;
-        const battery = `${randomBattery}%`;
+        const batteryLevel = 98;
+        const battery = `${batteryLevel}%`;
 
         const activities = [
             { icon: 'wifi', color: 'green', text: `Sinal: ${data.rssi || 0} dBm`, time: now },
-            { icon: 'battery-full', color: randomBattery >= 90 ? 'green' : randomBattery >= 80 ? 'yellow' : 'orange', text: `Bateria: ${battery}`, time: now },
+            { icon: 'battery-full', color: 'green', text: `Bateria: ${battery}`, time: now },
             { icon: 'thermometer-half', color: 'yellow', text: `Chip: ${temp}`, time: now }
         ];
 
